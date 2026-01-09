@@ -1,21 +1,23 @@
 'use client';
 import { useEffect, useState } from 'react';
 
-interface Producto {
+interface Persona {
   id?: number;
   nombre: string;
-  descripcion: string;
-  valor: number;
+  apellido: string;
+  edad: number;
+  email: string;
 }
 
-const API_URL = 'http://localhost:3000/productos';
+const API_URL = 'http://localhost:3000/personas';
 
 export default function Home() {
-  const [personas, setPersonas] = useState<Producto[]>([]);
-  const [form, setForm] = useState<Producto>({
+  const [personas, setPersonas] = useState<Persona[]>([]);
+  const [form, setForm] = useState<Persona>({
     nombre: '',
-    descripcion: '',
-    valor: 0,
+    apellido: '',
+    edad: 0,
+    email: '',
   });
   const [editingId, setEditingId] = useState<number | null>(null);
 
@@ -47,7 +49,7 @@ export default function Home() {
     load();
   };
 
-  const edit = (p: Producto) => {
+  const edit = (p: Persona) => {
     setForm(p);
     setEditingId(p.id!);
   };
@@ -59,7 +61,7 @@ export default function Home() {
   };
 
   const resetForm = () => {
-    setForm({ nombre: '', descripcion: '', valor: 0});
+    setForm({ nombre: '', apellido: '', edad: 0, email: '' });
     setEditingId(null);
   };
 
@@ -79,11 +81,12 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <input name="nombre" value={form.nombre} onChange={handleChange} placeholder="Nombre"
               className="input" />
-            <input name="descripcion" value={form.descripcion} onChange={handleChange} placeholder="Descripcion"
+            <input name="apellido" value={form.apellido} onChange={handleChange} placeholder="Apellido"
               className="input" />
-            <input name="valor" type="number" value={form.valor} onChange={handleChange} placeholder="Valor"
+            <input name="edad" type="number" value={form.edad} onChange={handleChange} placeholder="Edad"
               className="input" />
-            
+            <input name="email" value={form.email} onChange={handleChange} placeholder="Email"
+              className="input" />
           </div>
 
           <div className="mt-6 flex gap-3">
@@ -107,8 +110,9 @@ export default function Home() {
             <thead className="bg-gray-700 text-gray-200">
               <tr>
                 <th className="th">Nombre</th>
-                <th className="th">Descripcion</th>
-                <th className="th">Valor</th>
+                <th className="th">Apellido</th>
+                <th className="th">Edad</th>
+                <th className="th">Email</th>
                 <th className="th text-center">Acciones</th>
               </tr>
             </thead>
@@ -116,8 +120,9 @@ export default function Home() {
               {personas.map(p => (
                 <tr key={p.id} className="border-t border-gray-700 hover:bg-gray-700">
                   <td className="td">{p.nombre}</td>
-                  <td className="td">{p.descripcion}</td>
-                  <td className="td">{p.valor}</td>
+                  <td className="td">{p.apellido}</td>
+                  <td className="td">{p.edad}</td>
+                  <td className="td">{p.email}</td>
                   <td className="td text-center space-x-2">
                     <button onClick={() => edit(p)} className="text-yellow-400">✏️</button>
                     <button onClick={() => remove(p.id)} className="text-red-500">🗑️</button>
